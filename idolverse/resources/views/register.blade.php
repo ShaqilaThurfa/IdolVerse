@@ -105,6 +105,7 @@
             </div>
             <div class="row px-xl-5 px-sm-4 px-3">
               <div class="col-3 ms-auto px-1">
+                {{-- facebook --}}
                 <a class="btn btn-outline-light w-100" href="javascript:;">
                   <svg width="24px" height="32px" viewBox="0 0 64 64" version="1.1">
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -116,6 +117,7 @@
                   </svg>
                 </a>
               </div>
+              {{-- ini apple --}}
               <div class="col-3 px-1">
                 <a class="btn btn-outline-light w-100" href="javascript:;">
                   <svg width="24px" height="32px" viewBox="0 0 64 64" version="1.1">
@@ -127,8 +129,9 @@
                   </svg>
                 </a>
               </div>
+              {{-- ini google --}}
               <div class="col-3 me-auto px-1">
-                <a class="btn btn-outline-light w-100" href="javascript:;">
+                <a class="btn btn-outline-light w-100" href="{{ url('/auth/google') }}">
                   <svg width="24px" height="32px" viewBox="0 0 64 64" version="1.1">
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                       <g transform="translate(3.000000, 2.000000)" fill-rule="nonzero">
