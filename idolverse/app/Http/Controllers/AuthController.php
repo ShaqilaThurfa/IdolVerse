@@ -19,7 +19,7 @@ class AuthController extends Controller
 
     public function showLoginForm()
     {
-        return view('login'); // Sesuaikan view login kamu
+        return view('login'); 
     }
 
     public function login(Request $request)
@@ -85,7 +85,7 @@ class AuthController extends Controller
             Auth::login($user);
 
             return redirect('/home'); 
-            
+
         } catch (\Exception $e) {
             return redirect('/login')->with('error', 'Login dengan Google gagal.');
         }
