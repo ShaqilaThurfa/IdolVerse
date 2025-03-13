@@ -17,10 +17,6 @@ class AuthController extends Controller
         $this->middleware('auth', ['except' => ['login', 'register']]);
     }
 
-    public function showLoginForm()
-    {
-        return view('login'); 
-    }
 
     public function login(Request $request)
     {
@@ -29,23 +25,16 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        // if (Auth::attempt($credentials)) {
-        //     $request->session()->regenerate(); // Penting untuk keamanan session
-        //     //  dd('Berhasil Login!'); // Hapus atau komen ini
-            return view('dashboard');
-            // return redirect()->route('dashboard');
-            // return redirect()->intended('/dashboard');
-        // }
+
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate(); // penting
-            return redirect()->route('dashboard'); // harus redirect
+            $request->session()->regenerate();
+            return redirect()->route('dashboard');
         }
 
         return back()->withErrors([
             'email' => 'Email atau password salah.',
         ])->withInput();
     }
-
     public function register(Request $request)
     {
         $request->validate([
