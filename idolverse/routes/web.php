@@ -2,8 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
-
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,3 +31,14 @@ Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallbac
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+
+// Tampilkan form login
+// Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+
+// Proses login
+// Route::post('/login', [AuthController::class, 'login']);
+
+// Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
+
