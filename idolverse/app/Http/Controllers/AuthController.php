@@ -14,27 +14,56 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['login', 'register']]);
+        $this->middleware('auth', ['except' => ['login', 'register', 'showLoginForm']]);
     }
 
+    public function showLoginForm()
+    {
+        return view('login');
+    }
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
         ]);
 
+        $credentials = $request->only('email', 'password');
+        $token = Auth::attempt($credentials);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->route('dashboard');
+        if (!$token) {
+            return back()->withErrors([
+                'email' => 'Email atau password salah.',
+            ])->withInput();
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ])->withInput();
+        // Simpan token di session
+        session(['jwt_token' => $token]);
+
+        return redirect()->route('dashboard')->with('success', 'Berhasil login!');
     }
+
+
+
+    // public function login(Request $request)
+    // {
+    //     $credentials = $request->validate([
+    //         'email' => 'required|email',
+    //         'password' => 'required',
+    //     ]);
+
+
+    //     if (Auth::attempt($credentials)) {
+    //         $request->session()->regenerate();
+    //         return redirect()->route('dashboard');
+    //     }
+
+    //     return back()->withErrors([
+    //         'email' => 'Email atau password salah.',
+    //     ])->withInput();
+    // }
+
     public function register(Request $request)
     {
         $request->validate([
@@ -67,14 +96,13 @@ class AuthController extends Controller
                 ['email' => $googleUser->getEmail()],
                 [
                     'name' => $googleUser->getName(),
-                    'password' => bcrypt('defaultpassword'), 
+                    'password' => bcrypt('defaultpassword'),
                 ]
             );
 
             Auth::login($user);
 
-            return redirect('/home'); 
-
+            return redirect('/home');
         } catch (\Exception $e) {
             return redirect('/login')->with('error', 'Login dengan Google gagal.');
         }
@@ -85,6 +113,4 @@ class AuthController extends Controller
         Auth::logout();
         return view('login');
     }
-
-
 }
