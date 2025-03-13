@@ -16,6 +16,35 @@ class AuthController extends Controller
         $this->middleware('auth', ['except' => ['login', 'register']]);
     }
 
+    public function showLoginForm()
+    {
+        return view('login'); // Sesuaikan view login kamu
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // if (Auth::attempt($credentials)) {
+        //     $request->session()->regenerate(); // Penting untuk keamanan session
+        //     //  dd('Berhasil Login!'); // Hapus atau komen ini
+            return view('dashboard');
+            // return redirect()->route('dashboard');
+            // return redirect()->intended('/dashboard');
+        // }
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate(); // penting
+            return redirect()->route('dashboard'); // harus redirect
+        }
+
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ])->withInput();
+    }
+
     public function register(Request $request)
     {
 
