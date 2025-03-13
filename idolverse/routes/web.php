@@ -20,20 +20,15 @@ Route::get('/register', function () {
     return view('register');
 })->name('register');
 
-Route::get('/login', function () {
+Route::get('/', function () {
     return view('login');
-})->name('login');
+});
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-
-// Tampilkan form login
-// Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-
 // Proses login
-// Route::post('/login', [AuthController::class, 'login']);
-
-// Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
 
