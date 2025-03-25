@@ -20,17 +20,13 @@ Route::get('/register', function () {
     return view('register');
 })->name('register');
 
-Route::get('/', function () {
-    return view('login');
-})->name('login')->middleware('guest');
+
 
 
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')
 
-
-// Proses login
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-
+Route::get('tables', [HomeController::class, 'tables'])->name('tables');
+Route::get('billing', [HomeController::class, 'billing'])->name('billing');
