@@ -33,9 +33,13 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-// Proses login
+// Proses login mysql -u root -p qns < /root/hotspot_location_wifiid_202503201150.sql
+
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
+Route::post('/login', [AuthController::class, 'login'])->name('login')->middleware('api');
 
+Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+Route::get('tables', [HomeController::class, 'tables'])->name('tables');
+Route::get('billing', [HomeController::class, 'billing'])->name('billing');

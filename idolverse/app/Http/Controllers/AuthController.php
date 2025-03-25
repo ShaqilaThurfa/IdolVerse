@@ -28,21 +28,21 @@ class AuthController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-
         $credentials = $request->only('email', 'password');
         $token = Auth::attempt($credentials);
 
         if (!$token) {
-            return back()->withErrors([
-                'email' => 'Email atau password salah.',
-            ])->withInput();
+            return response()->json([
+                'message' => 'Unauthorized',
+            ], 401);
         }
 
-        // Simpan token di session
-        session(['jwt_token' => $token]);
+        $user = Auth::user();
+        $request->session()->regenerate();
 
-        return redirect()->route('dashboard')->with('success', 'Berhasil login!');
+        return redirect()->route('dashboard'); // ✅ Redirect langsung ke dashboard
     }
+
 
 
 

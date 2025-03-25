@@ -23,7 +23,7 @@
 
 
 <head>
-  <meta chars<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />et="utf-8" />
+  <meta chars<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
@@ -31,7 +31,7 @@
     idolVerse
   </title>
   <!--     Fonts and icons     -->
-  
+
   <!-- Nucleo Icons -->
   <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-svg.css" rel="stylesheet" />
@@ -118,9 +118,45 @@
                         <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" aria-label="Password" required>
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">{{ __('Login') }}</button>
+                        <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Login</button>
                     </div>
                 </form>
+
+                <div id="message" class="mt-3"></div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Mencegah reload halaman
+
+    let formData = {
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value
+    };
+
+    fetch("{{ route('login') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({ email, password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.authorization) {
+            // ✅ Simpan token di localStorage
+            localStorage.setItem("jwt_token", data.authorization.token);
+
+            // ✅ Redirect ke halaman dashboard
+            window.location.href = "{{ route('dashboard') }}";
+        } else {
+            document.getElementById('message').innerHTML =
+                `<div class="alert alert-danger">${data.message}</div>`;
+        }
+    })
+    .catch(error => console.error("Error:", error));
+});
+</script>
 
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
