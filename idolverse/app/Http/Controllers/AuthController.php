@@ -22,47 +22,6 @@ class AuthController extends Controller
         return view('login');
     }
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
-        $credentials = $request->only('email', 'password');
-        $token = Auth::attempt($credentials);
-
-        if (!$token) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], 401);
-        }
-
-        $user = Auth::user();
-        $request->session()->regenerate();
-
-        return redirect()->route('dashboard'); // ✅ Redirect langsung ke dashboard
-    }
-
-
-
-
-    // public function login(Request $request)
-    // {
-    //     $credentials = $request->validate([
-    //         'email' => 'required|email',
-    //         'password' => 'required',
-    //     ]);
-
-
-    //     if (Auth::attempt($credentials)) {
-    //         $request->session()->regenerate();
-    //         return redirect()->route('dashboard');
-    //     }
-
-    //     return back()->withErrors([
-    //         'email' => 'Email atau password salah.',
-    //     ])->withInput();
-    // }
 
     public function register(Request $request)
     {
