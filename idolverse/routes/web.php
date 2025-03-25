@@ -21,20 +21,12 @@ Route::get('/register', function () {
     return view('register');
 })->name('register');
 
-// Route::get('/login', function () {
-//     return view('login');
-// });
 
-Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
-Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
 
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-
-
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 Route::get('tables', [HomeController::class, 'tables'])->name('tables');
