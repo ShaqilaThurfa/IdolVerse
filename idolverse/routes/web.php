@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\GroupController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,13 +34,15 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-// Proses login mysql -u root -p qns < /root/hotspot_location_wifiid_202503201150.sql
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-
-Route::post('/login', [AuthController::class, 'login'])->name('login')->middleware('api');
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 Route::get('tables', [HomeController::class, 'tables'])->name('tables');
 Route::get('billing', [HomeController::class, 'billing'])->name('billing');
+
+Route::get('/groups/form/{id?}', [GroupController::class, 'form'])->name('groups.form');
+Route::post('/groups/store', [GroupController::class, 'store'])->name('groups.store');
+Route::post('/groups/update/{id}', [GroupController::class, 'update'])->name('groups.update');
+Route::delete('/groups/delete/{id}', [GroupController::class, 'destroy'])->name('groups.destroy');
+Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
+Route::get('/groups/show/{id}', [GroupController::class, 'show'])->name('groups.show');
